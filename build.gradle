@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'com.michaelwilliamjones'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    compile group: 'com.google.inject', name: 'guice', version: '4.2.3'
+
+    // https://mvnrepository.com/artifact/org.testng/testng
+    testCompile group: 'org.testng', name: 'testng', version: '7.3.0'
+}
