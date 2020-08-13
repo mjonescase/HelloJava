@@ -1,5 +1,15 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+apply plugin: 'java'
+ext {
+    javaMainClass = 'com.michaelwilliamjones.hellojava.Main'
+}
+
+application {
+    mainClassName = javaMainClass
 }
 
 group 'com.michaelwilliamjones'
