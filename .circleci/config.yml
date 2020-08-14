@@ -2,12 +2,10 @@ version: 2.1
 orbs:
   gradle: circleci/gradle@2.2.0
 
-executors:
-  gradle/default:
-    tag: "12.0"
-
 workflows:
   checkout-build-test:
     jobs:
       - gradle/test:
-          executor: gradle/default
+          executor:
+            name: gradle/default
+            tag: "12.0"
