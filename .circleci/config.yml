@@ -2,10 +2,34 @@ version: 2.1
 orbs:
   gradle: circleci/gradle@2.2.0
 
+jobs:
+  configure-jfrog-cli:
+    executor:
+      name: gradle/default
+    steps:
+      - run: |
+          curl -fL https://getcli.jfrog.io | sh
+          ./jfrog rt c import $JFROG_RT_MIKEJONES_EXPORT
+          ./jfrog rt c show mikejones
+      - save_cache:
+          key: jfrog-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - jfrog
+            - "~/.jfrog/jfrog-cli.conf"
+  test:
+    executor:
+      name: gradle/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - jfrog-{{ .Branch }}-{{ .Revision }}
+      - run: ./jfrog rt gradlec --server-id-deploy mikejones --server-id-resolve mikejones --repo-deploy gradle-dev --repo-resolve gradle-dev --use-wrapper
+      - run: ./jfrog rt gradle test
+
 workflows:
   checkout-build-test:
     jobs:
-      - gradle/test:
-          executor:
-            name: gradle/default
-            tag: "12.0"
+      - configure-jfrog-cli
+      - test:
+          requires: [configure-jfrog-cli]
