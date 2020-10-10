@@ -19,6 +19,7 @@ jobs:
   test:
     executor:
       name: gradle/default
+      tag: "12.0"
     steps:
       - checkout
       - restore_cache:
