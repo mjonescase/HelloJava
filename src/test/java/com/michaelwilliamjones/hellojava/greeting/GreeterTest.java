@@ -17,6 +17,6 @@ public class GreeterTest {
         String greeting = greeter.getGreeting();
 
         // assert
-        assertEquals(TEST_GREETING  + "wrong", greeting);
+        assertEquals(TEST_GREETING, greeting);
     }
 }
