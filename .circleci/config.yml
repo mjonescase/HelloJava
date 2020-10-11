@@ -27,6 +27,17 @@ jobs:
             - jfrog-{{ .Branch }}-{{ .Revision }}
       - run: ./jfrog rt gradlec --server-id-deploy mikejones --server-id-resolve mikejones --repo-deploy gradle-dev --repo-resolve gradle-dev --use-wrapper
       - run: ./jfrog rt gradle test
+  publish:
+    executor:
+      name: gradle/default
+      tag: "12.0"
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - jfrog-{{ .Branch }}-{{ .Revision }}
+      - run: ./jfrog rt gradlec --server-id-deploy mikejones --server-id-resolve mikejones --repo-deploy gradle-dev --repo-resolve gradle-dev --use-wrapper
+      - run: ./jfrog rt gradle "clean artifactoryPublish"
 
 workflows:
   checkout-build-test:
@@ -34,3 +45,9 @@ workflows:
       - configure-jfrog-cli
       - test:
           requires: [configure-jfrog-cli]
+      - publish:
+          requires: [test]
+          filters:
+            branches:
+              only:
+                - mainline
