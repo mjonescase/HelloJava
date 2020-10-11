@@ -25,7 +25,7 @@ jobs:
       - restore_cache:
           keys:
             - jfrog-{{ .Branch }}-{{ .Revision }}
-      - run: ./jfrog rt gradlec --server-id-deploy mikejones --server-id-resolve mikejones --repo-deploy gradle-dev --repo-resolve gradle-dev --use-wrapper
+      - run: ./jfrog rt gradlec --server-id-deploy mikejones --server-id-resolve mikejones --repo-deploy gradle-dev --repo-resolve gradle-dev --use-wrapper --deploy-maven-desc
       - run: ./jfrog rt gradle test
   publish:
     executor:
@@ -36,7 +36,7 @@ jobs:
       - restore_cache:
           keys:
             - jfrog-{{ .Branch }}-{{ .Revision }}
-      - run: ./jfrog rt gradlec --server-id-deploy mikejones --server-id-resolve mikejones --repo-deploy gradle-dev --repo-resolve gradle-dev --use-wrapper
+      - run: ./jfrog rt gradlec --server-id-deploy mikejones --server-id-resolve mikejones --repo-deploy gradle-dev --repo-resolve gradle-dev --use-wrapper --deploy-maven-desc
       - run: ./jfrog rt gradle "clean artifactoryPublish"
 
 workflows:
